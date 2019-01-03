@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Challenge Cleaver</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <p data-bind="html: cleaverSpeech"></p>
+      <button data-bind="click: function() { startGame(true) }, visible: showAcceptChallengeBtn">Accept challenge</button><br>
+
+      <div data-bind="visible: showAlternativeBtns">
+        <button data-bind="click: function() { playRound('Rock')}">Rock</button>
+        <button data-bind="click: function() { playRound('Paper')}">Paper</button>
+        <button data-bind="click: function() { playRound('Scissors')} ">Scissors</button>
+      </div>
+
+      score:  <span data-bind="text: playerScore"></span>
+    <script src="script/jquery-3.3.1.min.js" defer></script>
+    <script src="script/knockout.js" defer></script>
+    <script src="script/scripts.js" defer></script>
+  </body>
+</html>
