@@ -32,6 +32,7 @@ var vm = function() {
   self.playerScore = ko.observable(0);
   self.winner = ko.observable("");
   self.cleaverSpeech = ko.observable("I challenge you to a match of <strong>Rock Paper Scissors!</strong>");
+  self.previousResult = ko.observable("");
 
   // Start game, and show alternative btns
   self.startGame = function(newgame){
@@ -63,17 +64,25 @@ var vm = function() {
                 self.playerScore(data.score);
                 switch(data.winner){
                     case "win":
+                    self.previousResult("win");
                     self.cleaverSpeech("<span> " + weapon + "! Oh.. <strong>You win</strong>, let's go again!</span>");
                     break;
 
                     case "loss":
                     /*Check if on scoreboard, show modal based on what result*/
-                    self.cleaverSpeech("<span><strong>" + weapon + "!</strong> Haha! I win!</span> Want to challenge me again?");
+                    self.previousResult("loss");
+                    self.cleaverSpeech("<span>" + data.cleaver + "! Haha!<strong> I win!</strong></span> Want to challenge me again?");
                     self.resetGame();
                     break;
 
                     case "tie":
-                    self.cleaverSpeech("<span>Copy cat! I also picked <strong>" + weapon + "</strong></span>");
+                    if(self.previousResult() == "tie"){
+                      self.cleaverSpeech("<span><strong>Tied again!?</strong> You reading my mind?</span>");
+                    }
+                    else {
+                      self.previousResult("tie");
+                      self.cleaverSpeech("<span><strong>Copy cat!</strong> I also picked " + weapon + "</span>");
+                    }
                     break;
                 }
            }

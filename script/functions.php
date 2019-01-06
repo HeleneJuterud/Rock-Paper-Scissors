@@ -46,6 +46,7 @@ function crownWinner(){
 $result = [
     'score' => $_SESSION['score'],
     'winner' => $winner,
+    'cleaver' => $cleaver_choice,
 ];
  echo json_encode($result);
 }
