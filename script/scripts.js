@@ -31,9 +31,7 @@ var vm = function() {
   var self = this;
   self.playerScore = ko.observable(0);
   self.winner = ko.observable("");
-  self.showAcceptChallengeBtn = ko.observable(true);
-  self.showAlternativeBtns = ko.observable(false);
-  self.cleaverSpeech = ko.observable("I challenge you to a match of Rock Paper Scissors!");
+  self.cleaverSpeech = ko.observable("I challenge you to a match of <strong>Rock Paper Scissors!</strong>");
 
   // Start game, and show alternative btns
   self.startGame = function(newgame){
@@ -42,15 +40,19 @@ var vm = function() {
         type: "post",
         dataType: 'json',
         data: {action: "newgame"},
-        success:function(){
-            self.cleaverSpeech("Choose your weapon!");
-            self.showAcceptChallengeBtn(false);
-            self.showAlternativeBtns(true);
-       }
+     }).done(function() {
+       self.cleaverSpeech("Choose your weapon!");
+       $("#Play").hide();
+       $("#Rock").show();
+       $("#OptionPlanks").show();
      });
   }
 
-
+  self.resetGame = function(){
+    $("#Rock").hide();
+    $("#OptionPlanks").hide();
+    $("#Play").show();
+  }
   self.playRound = function(weapon){
     $.ajax({
             url:"script/functions.php",
@@ -61,16 +63,17 @@ var vm = function() {
                 self.playerScore(data.score);
                 switch(data.winner){
                     case "win":
-                    self.cleaverSpeech(weapon + "! Oh.. <strong>You win</strong>, let's go again!");
+                    self.cleaverSpeech("<span> " + weapon + "! Oh.. <strong>You win</strong>, let's go again!</span>");
                     break;
 
                     case "loss":
                     /*Check if on scoreboard, show modal based on what result*/
-                    self.cleaverSpeech("<strong>" + weapon + "!</strong> Haha! I win! Choose a weapon to challenge me again!");
+                    self.cleaverSpeech("<span><strong>" + weapon + "!</strong> Haha! I win!</span> Want to challenge me again?");
+                    self.resetGame();
                     break;
 
                     case "tie":
-                    self.cleaverSpeech("Copy cat! I also picked <strong>" + weapon + "</strong>");
+                    self.cleaverSpeech("<span>Copy cat! I also picked <strong>" + weapon + "</strong></span>");
                     break;
                 }
            }
@@ -81,3 +84,19 @@ var vm = function() {
 
 var viewmodel = new vm(vm);
 ko.applyBindings(vm);
+
+$("#Play").click(function(){
+  viewmodel.startGame("newgame");
+});
+
+$("#Rock").click(function(){
+  viewmodel.playRound("Rock");
+});
+
+$("#Paper").click(function(){
+  viewmodel.playRound("Paper");
+});
+
+$("#Scissor").click(function(){
+  viewmodel.playRound("Scissors");
+});
