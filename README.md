@@ -6,5 +6,5 @@ Game logic, "Cleaver"´s choice, crowning of a winner and score keeping is done 
 cheating through editing of javascript variables.
 
 # Current status
-- Pre-testing.  UI and functionality is in place, but there might still be bugs.
-Saving to scoreboard and scoreboard functionality is not finished
+- Page live at: http://helenekassandra.com/thedaemonarmy/RockPaperScissors/
+Repository is not fully updated, as Database functionality is not included
